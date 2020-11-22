@@ -1,0 +1,61 @@
+jobs:
+  # All tasks on Windows....
+  - job: build_all_windows
+    displayName: Build all tasks (Windows)
+    timeoutInMinutes: 120
+    pool:
+      vmImage: windows-latest
+    variables:
+      CI_TEST: true
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK'
+        inputs:
+          version: 5.0.100
+      - script: PowerShell.exe -file script/build.ps1
+        displayName: 'Build and Test'
+      - script: PowerShell.exe -file script/test.ps1
+        dispayName: 'Run test'
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testRunner: VSTest
+          testResultsFiles: '**/*.trx'
+      - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+        displayName: ReportGenerator
+        inputs:
+          reports: '$(Build.SourcesDirectory)/test/*/TestResults/*/coverage.cobertura.xml'
+          targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
+          reporttypes: 'Cobertura'
+          assemblyfilters: '-xunit*'
+      - script: PowerShell.exe -file script/up_coverage.ps1
+        displayName: 'Upload data to Codecov'
+  # All tasks on Linux
+  - job: build_all_linux
+    displayName: Build all tasks (Linux)
+    timeoutInMinutes: 120
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK'
+        inputs:
+          version: 5.0.100
+      - script: sh script/build.sh
+        displayName: 'Build'
+      - script: sh script/tesh.sh
+        dispayName: 'Run test'
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testRunner: VSTest
+          testResultsFiles: '**/*.trx'
+      - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+        displayName: ReportGenerator
+        inputs:
+          reports: '$(Build.SourcesDirectory)/test/*/TestResults/*/coverage.cobertura.xml'
+          targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
+          reporttypes: 'Cobertura'
+          assemblyfilters: '-xunit*'
+      - script: sh script/up_coverage.sh
+        displayName: 'Upload data to Codecov'
