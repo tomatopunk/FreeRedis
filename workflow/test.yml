@@ -9,5 +9,5 @@ jobs:
         displayName: 'Install .NET Core SDK'
         inputs:
           version: 5.0.100
-      - script: sh script/build.sh
+      - script: sh scripts/build.sh
         displayName: 'Build'
