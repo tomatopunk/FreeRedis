@@ -1,0 +1,13 @@
+jobs:
+  - job: build_all_linux
+    displayName: Build all tasks (Linux)
+    timeoutInMinutes: 120
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK'
+        inputs:
+          version: 5.0.100
+      - script: sh script/build.sh
+        displayName: 'Build'
