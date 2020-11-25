@@ -4,6 +4,16 @@ jobs:
     timeoutInMinutes: 120
     pool:
       vmImage: ubuntu-latest
+    services:
+      redis:
+        image: redis:alpine
+        ports:
+        - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - task: UseDotNet@2
         displayName: 'Install .NET Core SDK'
@@ -11,3 +21,20 @@ jobs:
           version: 5.0.100
       - script: sh scripts/build.sh
         displayName: 'Build'
+      - script: sh scripts/tesh.sh
+        displayName: 'Run unit test'
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testRunner: VSTest
+          testResultsFiles: '**/*.trx'
+      - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+        displayName: ReportGenerator
+        inputs:
+          reports: '$(Build.SourcesDirectory)/test/*/TestResults/*/coverage.cobertura.xml'
+          targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
+          reporttypes: 'Cobertura'
+          assemblyfilters: '-xunit*'
+      - script: sh scripts/up_coverage.sh
+        displayName: 'Upload data to Codecov'
+      - script cat ../test/results/coverage.opencover.xml
