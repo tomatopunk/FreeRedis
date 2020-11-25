@@ -12,9 +12,9 @@ jobs:
         displayName: 'Install .NET Core SDK'
         inputs:
           version: 5.0.100
-      - script: PowerShell.exe -file script/build.ps1
+      - script: PowerShell.exe -file scripts/build.ps1
         displayName: 'Build and Test'
-      - script: PowerShell.exe -file script/test.ps1
+      - script: PowerShell.exe -file scripts/test.ps1
         dispayName: 'Run test'
       - task: PublishTestResults@2
         condition: always()
@@ -28,7 +28,7 @@ jobs:
           targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
           reporttypes: 'Cobertura'
           assemblyfilters: '-xunit*'
-      - script: PowerShell.exe -file script/up_coverage.ps1
+      - script: PowerShell.exe -file scripts/up_coverage.ps1
         displayName: 'Upload data to Codecov'
   # All tasks on Linux
   - job: build_all_linux
@@ -41,10 +41,10 @@ jobs:
         displayName: 'Install .NET Core SDK'
         inputs:
           version: 5.0.100
-      - script: sh script/build.sh
+      - script: sh scripts/build.sh
         displayName: 'Build'
-      - script: sh script/tesh.sh
-        dispayName: 'Run test'
+      - script: sh scripts/test.sh
+        displayName: 'Run test'
       - task: PublishTestResults@2
         condition: always()
         inputs:
@@ -57,5 +57,5 @@ jobs:
           targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
           reporttypes: 'Cobertura'
           assemblyfilters: '-xunit*'
-      - script: sh script/up_coverage.sh
+      - script: sh scripts/up_coverage.sh
         displayName: 'Upload data to Codecov'
