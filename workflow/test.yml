@@ -6,7 +6,7 @@ jobs:
       vmImage: ubuntu-latest
     services:
       redis:
-        image: redis:alpine
+        image: redis:6.0-alpine
         ports:
         - 6379:6379
         options: >-
