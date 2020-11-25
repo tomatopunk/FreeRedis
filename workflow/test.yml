@@ -22,6 +22,6 @@ jobs:
           version: 5.0.100
       - script: sh scripts/build.sh
         displayName: 'Build'
-      - script: sh scripts/test.sh
+      - script: bash scripts/test.sh
         displayName: 'Run unit test'
       - script: cat results/coverage.json
