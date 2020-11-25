@@ -11,7 +11,7 @@ for i in *.Tests ; do
     /p:CoverletOutputFormat="json%2copencover" \
     /p:CoverletOutput="../results/coverage" \
     /p:MergeWith="../results/coverage.json" \
-    > /tmp/test.log
+    > /tmp/freeredis-test.log
 
   if [[ $? -ne 0 ]] ; then
     echo "Test Run Failed."
