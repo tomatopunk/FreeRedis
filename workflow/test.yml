@@ -1,0 +1,27 @@
+jobs:
+  - job: build_all_linux
+    displayName: Build all tasks (Linux)
+    timeoutInMinutes: 120
+    pool:
+      vmImage: ubuntu-latest
+    services:
+      redis:
+        image: redis:alpine
+        ports:
+        - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - script: dir
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK'
+        inputs:
+          version: 5.0.100
+      - script: sh scripts/build.sh
+        displayName: 'Build'
+      - script: sh scripts/test.sh
+        displayName: 'Run unit test'
+      - script: cat results/coverage.json
