@@ -20,8 +20,12 @@ jobs:
         displayName: 'Install .NET Core SDK'
         inputs:
           version: 5.0.100
-      - script: sh scripts/build.sh
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK'
+        inputs:
+          version: 3.1.403  
+      - script: bash scripts/build.sh
         displayName: 'Build'
-      - script: sh scripts/test.sh
+      - script: bash scripts/test.sh
         displayName: 'Run unit test'
       - script: cat results/coverage.json
