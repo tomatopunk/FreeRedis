@@ -1,17 +1,14 @@
 ﻿using BenchmarkDotNet.Running;
 using System;
-using System.Text;
 
-namespace ConcurrentWriteBytes
+namespace BytesReaderTest
 {
     class Program
     {
         static void Main(string[] args)
         {
-           
-            BenchmarkRunner.Run<ConcurrentTest>();
+            BenchmarkRunner.Run<UnBoxTest>();
             Console.ReadKey();
-
         }
     }
 }
