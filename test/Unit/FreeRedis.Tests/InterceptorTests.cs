@@ -10,7 +10,7 @@ namespace FreeRedis.Tests
 {
     public class InterceptorTests
     {
-        public static RedisClient CreateClient() => new RedisClient("127.0.0.1:6379");
+        public static RedisClient CreateClient() => new RedisClient("127.0.0.1:6379,password=123456");
         // public static RedisClient CreateClient() => new RedisClient("192.168.164.10:6379");
 
         [Fact]

@@ -13,7 +13,7 @@ namespace SocketTest
     {
 
         public static string Result;
-        [Fact(DisplayName ="²âÊÔ SOCKET ÔÚÆ½Ì¨µÄ¿ÉÓÃĞÔ")]
+        [Fact(DisplayName ="æµ‹è¯• SOCKET åœ¨å¹³å°çš„å¯ç”¨æ€§")]
         public void Test1()
         {
             var point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 18989);

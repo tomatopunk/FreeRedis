@@ -25,6 +25,9 @@ namespace FreeRedis.Tests.RedisClientTests.Other
             Assert.Equal(0, cli.Publish(key1, "test"));
         }
 
+        /// <summary>
+        /// todo should max pool size > 1
+        /// </summary>
         [Fact]
         public void PubSubChannels()
         {
@@ -41,6 +44,9 @@ namespace FreeRedis.Tests.RedisClientTests.Other
             }
         }
 
+        /// <summary>
+        /// todo should max size >1
+        /// </summary>
         [Fact]
         public void PubSubNumSub()
         {
