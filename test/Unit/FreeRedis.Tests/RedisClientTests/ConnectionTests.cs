@@ -15,7 +15,7 @@ namespace FreeRedis.Tests.RedisClientTests.Other
             cli.Auth("default", "123456");
         }
 
-        [Fact]
+        [Fact(Skip = "Need New Feature Updated")]
         public void ClientCaching()
         {
             cli.ClientCaching(Confirm.yes);
@@ -143,7 +143,7 @@ namespace FreeRedis.Tests.RedisClientTests.Other
             Assert.Equal(txt, cli.Ping(txt));
         }
 
-        [Fact]
+        [Fact(Skip = "Need Special Environment")]
         public void Select()
         {
             cli.Select(1);
