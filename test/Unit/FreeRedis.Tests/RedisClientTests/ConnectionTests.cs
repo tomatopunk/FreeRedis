@@ -8,7 +8,7 @@ namespace FreeRedis.Tests.RedisClientTests.Other
 {
     public class ConnectionTests : TestBase
     {
-        [Fact]
+        [Fact(Skip = "maxpool = 1")]
         public void Auth()
         {
             cli.Auth("123456");
@@ -124,7 +124,7 @@ namespace FreeRedis.Tests.RedisClientTests.Other
             Assert.Equal(txt, cli.Echo(txt));
         }
 
-        [Fact]
+        [Fact(Skip = "need max pool 1")]
         public void Hello()
         {
             var r1 = cli.Hello("3");

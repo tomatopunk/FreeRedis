@@ -10,7 +10,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
     {
         public static RedisSentinelClient GetClient() => new RedisSentinelClient("127.0.0.1:6379");
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Ping()
         {
             using (var cli = GetClient())
@@ -19,7 +19,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Info()
         {
             using (var cli = GetClient())
@@ -28,7 +28,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Role()
         {
             using (var cli = GetClient())
@@ -40,7 +40,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Masters()
         {
             using (var cli = GetClient())
@@ -51,7 +51,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Master()
         {
             using (var cli = GetClient())
@@ -65,7 +65,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Salves()
         {
             using (var cli = GetClient())
@@ -76,7 +76,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Sentinels()
         {
             using (var cli = GetClient())
@@ -87,7 +87,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void GetMasterAddrByName()
         {
             using (var cli = GetClient())
@@ -97,7 +97,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void IsMasterDownByAddr()
         {
             using (var cli = GetClient())
@@ -112,7 +112,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Reset()
         {
             using (var cli = GetClient())
@@ -122,7 +122,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Failover()
         {
             using (var cli = GetClient())
@@ -134,7 +134,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void PendingScripts()
         {
             using (var cli = GetClient())
@@ -143,7 +143,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void FlushConfig()
         {
             using (var cli = GetClient())
@@ -152,7 +152,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Remove()
         {
             using (var cli = GetClient())
@@ -164,7 +164,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void CkQuorum()
         {
             using (var cli = GetClient())
@@ -176,7 +176,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void Set()
         {
             using (var cli = GetClient())
@@ -185,7 +185,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void InfoCache()
         {
             using (var cli = GetClient())
@@ -194,7 +194,7 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void SimulateFailure()
         {
             using (var cli = GetClient())

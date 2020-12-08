@@ -3,7 +3,6 @@
 cd test/Unit/ || exit
 
 for i in *.Tests ; do 
-  echo ""
   echo "### Executing Tests for $i:"
   
   time dotnet test "$i" --no-build \
