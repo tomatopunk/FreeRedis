@@ -29,5 +29,5 @@ jobs:
       - script: bash scripts/test.sh
         displayName: 'Run unit test'
       - script: |
-        bash <(curl -s https://codecov.io/bash)
-        displayName: 'Upload to codecov.io'
+          bash <(curl -s https://codecov.io/bash)
+          displayName: 'Upload to codecov.io'
