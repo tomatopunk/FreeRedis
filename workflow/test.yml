@@ -4,6 +4,18 @@ jobs:
     timeoutInMinutes: 120
     pool:
       vmImage: ubuntu-latest
+    services:
+      redis:
+        image: redis:6.0-alpine
+        ports:
+          - 6379:6379
+        volumes:
+          - $(Build.SourcesDirectory)/workflow/:/usr/local/etc/redis/
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - script: dir
       - task: UseDotNet@2
@@ -14,23 +26,9 @@ jobs:
         displayName: 'Install .NET Core SDK'
         inputs:
           version: 3.1.403
-
-    services:
-      redis:
-        image: redis:6.0-alpine
-        ports:
-          - 6379:6379
-        volumes:
-          - $(Build.SourcesDirectory)/workflow/redis.conf:/usr/local/etc/redis/redis.conf
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-        - script: bash scripts/build.sh
-          displayName: 'Build'
-        - script: bash scripts/test.sh
-          displayName: 'Run unit test'
-        - script: bash <(curl -s https://codecov.io/bash)
-          displayName: 'Upload to codecov.io'
+      - script: bash scripts/build.sh
+        displayName: 'Build'
+      - script: bash scripts/test.sh
+        displayName: 'Run unit test'
+      - script: bash <(curl -s https://codecov.io/bash)
+        displayName: 'Upload to codecov.io'
