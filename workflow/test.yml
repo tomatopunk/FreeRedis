@@ -10,7 +10,7 @@ jobs:
         ports:
           - 6379:6379
         volumes:
-          - $(Build.SourcesDirectory)/workflow/:/usr/local/etc/redis/
+          - workflow/redis.conf:/usr/local/etc/redis/redis.conf
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
