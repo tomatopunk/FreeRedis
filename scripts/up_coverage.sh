@@ -2,4 +2,4 @@
 
 curl -s https://codecov.io/bash > codecov
 chmod +x codecov
-./codecov -f "../test/results/coverage.opencover.xml" -t $1
+./codecov -f "../test/Unit/results/coverage.opencover.xml" -t $1
