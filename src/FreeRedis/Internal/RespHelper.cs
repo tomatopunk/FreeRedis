@@ -948,15 +948,30 @@ namespace FreeRedis
         }
         public TValue ThrowOrValue<TValue>(Func<object[], bool, TValue> value)
         {
-        
-        
-        
+            test();
             if (IsError) throw new RedisServerException(this.SimpleError);
             var newval = value(this.Value as object[], false);
             if (newval == null && typeof(TValue).IsArray) newval = (TValue)typeof(TValue).CreateInstanceGetDefaultValue();
             this.Value = newval;
             return newval;
         }
+
+        private void test()
+        {
+            if (true == false)
+            {
+            }
+            else
+            {
+                var tt = 1;
+                tt = 22;
+                tt = 33;
+                tt = 44;
+                tt = 55;
+                tt = 66;
+            }
+        }
+
         public object ThrowOrValue()
         {
             if (IsError) throw new RedisServerException(this.SimpleError);
