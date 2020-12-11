@@ -4,16 +4,6 @@ cd test/Unit/ || exit
 
 for i in *.Tests ; do 
   echo "### Executing Tests for $i:"
-  
-##  time dotnet test "$i" --no-build \
-##    /p:CollectCoverage=true \
-#    /p:Exclude="[coverlet.*]*,[*]Coverlet.Core*" \
-##    /p:ExcludeByFile="examples/*"
-##    /p:CoverletOutputFormat="json%2copencover" \
-##    /p:CoverletOutput="../results/coverage" \
-##    /p:MergeWith="../results/coverage.json" \
-##    > /tmp/freeredis-test.log
-
   time dotnet test "$i" --no-build \
     --collect:"XPlat Code Coverage" \
     -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByFile="examples/*" \
