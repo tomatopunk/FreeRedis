@@ -4,9 +4,18 @@ jobs:
     timeoutInMinutes: 120
     pool:
       vmImage: ubuntu-latest
+    services:
+      redis:
+        image: redis:6.0-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - script: docker run -p 6379:6379 -v $(Build.SourcesDirectory)/workflow/redis.conf:/usr/local/etc/redis/redis.conf --name myredis redis:6.0-alpine redis-server /usr/local/etc/redis/redis.conf
-        displayName: 'docker run'
+      - script: dir
       - task: UseDotNet@2
         displayName: 'Install .NET Core SDK'
         inputs:
