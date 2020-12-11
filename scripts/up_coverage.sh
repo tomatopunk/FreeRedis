@@ -2,5 +2,4 @@
 
 curl -s https://codecov.io/bash > codecov
 chmod +x codecov
-./codecov -f "$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml" -codecov.yml
-t $1
+./codecov -f "$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml" -t $1
