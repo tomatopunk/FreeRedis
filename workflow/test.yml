@@ -9,13 +9,14 @@ jobs:
         image: redis:6.0-alpine
         ports:
           - 6379:6379
+        volumes:
+          - $(Build.SourcesDirectory)/workflow/redis.conf:/usr/local/etc/redis/redis.conf
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
     steps:
-      - script: dir
       - task: UseDotNet@2
         displayName: 'Install .NET Core SDK'
         inputs:
@@ -28,5 +29,12 @@ jobs:
         displayName: 'Build'
       - script: bash scripts/test.sh
         displayName: 'Run unit test'
+      - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+        displayName: ReportGenerator
+        inputs:
+          reports: '$(Build.SourcesDirectory)/test/Unit/results/coverage.opencover.xml'
+          targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
+          reporttypes: 'Cobertura'
+          assemblyfilters: '-xunit*'
       - script: bash <(curl -s https://codecov.io/bash)
         displayName: 'Upload to codecov.io'
