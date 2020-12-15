@@ -13,7 +13,7 @@ jobs:
       - task: DockerCompose@0
         inputs:
           containerregistrytype: 'Container Registry'
-          dockerComposeFile: 'workflow/docker-compose.yml'
+          dockerComposeFile: '$(Build.SourcesDirectory)/workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
           dockerComposeCommand: up -d
@@ -42,7 +42,7 @@ jobs:
       - task: DockerCompose@0
         inputs:
           containerregistrytype: 'Container Registry'
-          dockerComposeFile: 'workflow/docker-compose.yml'
+          dockerComposeFile: '$(Build.SourcesDirectory)/workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
           dockerComposeCommand: down --remove-orphans
