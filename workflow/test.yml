@@ -27,10 +27,10 @@ stages:
             displayName: "Run Build"
   - stage: run-unit-test
     displayName: Run Unittest
-    timeoutInMinutes: 120
     jobs:
       - job: build_ubuntu_all
         displayName: Build Ubuntu By Last Version
+        timeoutInMinutes: 120
         pool:
           vmImage: ubuntu-latest
         steps:
