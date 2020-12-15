@@ -1,5 +1,5 @@
 stages:
-  - stage: Build Code
+  - stage: build_code
     displayName: run build.sh
     variables:
       solution: "**/*.sln"
@@ -25,7 +25,7 @@ stages:
               version: 3.1.403
           - script: bash scripts/build.sh
             displayName: "Run Build"
-  - stage: run-unit-test
+  - stage: run_unit_test
     displayName: Run Unittest
     jobs:
       - job: build_ubuntu_all
