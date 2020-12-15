@@ -12,7 +12,7 @@ jobs:
           echo $(Build.SourcesDirectory)
       - task: DockerCompose@0
         inputs:
-          containerregistrytype: 'Azure Container Registry'
+          containerregistrytype: 'Container Registry'
           dockerComposeFile: 'workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
