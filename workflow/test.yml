@@ -12,9 +12,9 @@ stages:
           vmImage: ubuntu-latest
         steps:
           - script: bash uname -a
-              displayName: "Look UName"
+            displayName: "Look UName"
           - script: bash pwd
-              displayName: "Look dictionary"
+            displayName: "Look dictionary"
           - task: UseDotNet@2
             displayName: "Install .NET Core SDK"
             inputs:
@@ -24,28 +24,28 @@ stages:
             inputs:
               version: 3.1.403
           - script: bash scripts/build.sh
-              displayName: "Run Build"
+            displayName: "Run Build"
   - stage: run-unit-test
-      displayName: Run Unittest
-      timeoutInMinutes: 120
-      jobs:
-        - job: build_ubuntu_all
-          displayName: Build Ubuntu By Last Version
-          pool:
-            vmImage: ubuntu-latest
-          steps:
-            - script: bash uname -a
-                displayName: "Look UName"
-            - script: bash pwd
-                displayName: "Look dictionary"
-            - script: bash scripts/test.sh
-                displayName: "Run unit test"
-                  - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-                    displayName: ReportGenerator
-                    inputs:
-                      reports: "$(Build.SourcesDirectory)/test/Unit/*/TestResults/*/coverage.cobertura.xml"
-                      targetdir: "$(Build.SourcesDirectory)/CodeCoverage"
-                      reporttypes: "Cobertura"
-                      assemblyfilters: "-xunit*"
-                  - script: bash <(curl -s https://codecov.io/bash)
-                    displayName: "Upload to codecov.io"
+    displayName: Run Unittest
+    timeoutInMinutes: 120
+    jobs:
+      - job: build_ubuntu_all
+        displayName: Build Ubuntu By Last Version
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - script: bash uname -a
+            displayName: "Look UName"
+          - script: bash pwd
+            displayName: "Look dictionary"
+          - script: bash scripts/test.sh
+            displayName: "Run unit test"
+          - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+            displayName: ReportGenerator
+            inputs:
+              reports: "$(Build.SourcesDirectory)/test/Unit/*/TestResults/*/coverage.cobertura.xml"
+              targetdir: "$(Build.SourcesDirectory)/CodeCoverage"
+              reporttypes: "Cobertura"
+              assemblyfilters: "-xunit*"
+          - script: bash <(curl -s https://codecov.io/bash)
+            displayName: "Upload to codecov.io"
