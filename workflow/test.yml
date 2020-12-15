@@ -16,7 +16,7 @@ jobs:
           dockerComposeFile: 'workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
-          dockerComposeCommand: run
+          dockerComposeCommand: up -d
           action: 'Run a Docker Compose command'
       - task: UseDotNet@2
         displayName: "Install .NET Core SDK"
@@ -45,5 +45,5 @@ jobs:
           dockerComposeFile: 'workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
-          dockerComposeCommand: rm
+          dockerComposeCommand: down --remove-orphans
           action: 'Delete Docker Compose command'
