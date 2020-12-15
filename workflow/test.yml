@@ -14,8 +14,8 @@ jobs:
         inputs:
           containerregistrytype: 'Azure Container Registry'
           dockerComposeFile: 'workflow/docker-compose.yml'
-          dockerComposeFileArgs:
-            - "workDirectory=$(Build.SourcesDirectory)"
+          dockerComposeFileArgs: |
+            - "workDirectory:$(Build.SourcesDirectory)"
           action: 'Run a Docker Compose command'
       - task: UseDotNet@2
         displayName: "Install .NET Core SDK"
