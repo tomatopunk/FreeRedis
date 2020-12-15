@@ -6,16 +6,15 @@ jobs:
       vmImage: ubuntu-latest
     variables:
       - name: workDirectory
-        value: ${Build.SourcesDirectory}
+        value: $(Build.SourcesDirectory)
     steps:
       - script: |
           echo $(Build.SourcesDirectory)
-          echo $(workDirectory)
-          echo ${workDirectory}
       - task: DockerCompose@0
         inputs:
           containerregistrytype: 'Azure Container Registry'
           dockerComposeFile: 'workflow/docker-compose.yml'
+          arguments: 'workDirectory=$(Build.SourcesDirectory)'
           action: 'Run a Docker Compose command'
       - task: UseDotNet@2
         displayName: "Install .NET Core SDK"
