@@ -25,7 +25,7 @@ jobs:
       - script: bash scripts/build.sh
         displayName: "Build"
       - script: bash scripts/test.sh
-        displayName: "Run unit test"
+        displayName: "Run Unit Test"
       - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
         displayName: ReportGenerator
         inputs:

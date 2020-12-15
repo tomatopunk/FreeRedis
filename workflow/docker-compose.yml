@@ -2,8 +2,17 @@ version: "3.9"
 services:
   redis_single:
     image: redis:6.0-alpine
+    container_name: "redis_single"
     volumes:
       - ${workDirectory}/workflow/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - "6379:6379"
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+  redis_auth:
+    image: redis:6.0-alpine
+    container_name: "redis_auth"
+    volumes:
+      - ${workDirectory}/workflow/redis-auth.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6479:6379"
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
