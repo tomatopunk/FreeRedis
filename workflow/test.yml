@@ -11,8 +11,6 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: bash uname -a
-            displayName: "Look UName"
           - script: bash pwd
             displayName: "Look dictionary"
           - task: UseDotNet@2
@@ -34,8 +32,6 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: bash uname -a
-            displayName: "Look UName"
           - script: bash pwd
             displayName: "Look dictionary"
           - script: bash scripts/test.sh
