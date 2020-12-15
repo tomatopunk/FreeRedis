@@ -11,8 +11,6 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: bash pwd
-            displayName: "Look dictionary"
           - task: UseDotNet@2
             displayName: "Install .NET Core SDK"
             inputs:
