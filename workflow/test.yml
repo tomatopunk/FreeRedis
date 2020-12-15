@@ -16,6 +16,7 @@ jobs:
           dockerComposeFile: 'workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
+          dockerComposeCommand: run
           action: 'Run a Docker Compose command'
       - task: UseDotNet@2
         displayName: "Install .NET Core SDK"
@@ -38,3 +39,11 @@ jobs:
           assemblyfilters: "-xunit*"
       - script: bash <(curl -s https://codecov.io/bash)
         displayName: "Upload to codecov.io"
+      - task: DockerCompose@0
+        inputs:
+          containerregistrytype: 'Container Registry'
+          dockerComposeFile: 'workflow/docker-compose.yml'
+          dockerComposeFileArgs: |
+            workDirectory=$(Build.SourcesDirectory)
+          dockerComposeCommand: rm
+          action: 'Delete Docker Compose command'
