@@ -1,38 +1,51 @@
-jobs:
-  - job: build_all_linux
-    displayName: Build all tasks (Linux)
-    timeoutInMinutes: 120
-    pool:
-      vmImage: ubuntu-latest
-    services:
-      redis:
-        image: redis:6.0-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK'
-        inputs:
-          version: 5.0.100
-      - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK'
-        inputs:
-          version: 3.1.403
-      - script: bash scripts/build.sh
-        displayName: 'Build'
-      - script: bash scripts/test.sh
-        displayName: 'Run unit test'
-      - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-        displayName: ReportGenerator
-        inputs:
-          reports: '$(Build.SourcesDirectory)/test/Unit/*/TestResults/*/coverage.cobertura.xml'
-          targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
-          reporttypes: 'Cobertura'
-          assemblyfilters: '-xunit*'
-      - script: bash <(curl -s https://codecov.io/bash)
-        displayName: 'Upload to codecov.io'
+stages:
+  - stage: Build Code
+    displayName: run build.sh
+    variables:
+      solution: "**/*.sln"
+      buildPlatform: "any cpu"
+      buildConfiguration: "Release"
+    jobs:
+      - job: build_ubuntu_all
+        displayName: Build Ubuntu By Last Version
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - script: bash uname -a
+              displayName: "Look UName"
+          - script: bash pwd
+              displayName: "Look dictionary"
+          - task: UseDotNet@2
+            displayName: "Install .NET Core SDK"
+            inputs:
+              version: 5.0.100
+          - task: UseDotNet@2
+            displayName: "Install .NET Core SDK"
+            inputs:
+              version: 3.1.403
+          - script: bash scripts/build.sh
+              displayName: "Run Build"
+  - stage: run-unit-test
+      displayName: Run Unittest
+      timeoutInMinutes: 120
+      jobs:
+        - job: build_ubuntu_all
+          displayName: Build Ubuntu By Last Version
+          pool:
+            vmImage: ubuntu-latest
+          steps:
+            - script: bash uname -a
+                displayName: "Look UName"
+            - script: bash pwd
+                displayName: "Look dictionary"
+            - script: bash scripts/test.sh
+                displayName: "Run unit test"
+                  - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+                    displayName: ReportGenerator
+                    inputs:
+                      reports: "$(Build.SourcesDirectory)/test/Unit/*/TestResults/*/coverage.cobertura.xml"
+                      targetdir: "$(Build.SourcesDirectory)/CodeCoverage"
+                      reporttypes: "Cobertura"
+                      assemblyfilters: "-xunit*"
+                  - script: bash <(curl -s https://codecov.io/bash)
+                    displayName: "Upload to codecov.io"
