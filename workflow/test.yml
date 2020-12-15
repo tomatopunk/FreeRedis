@@ -1,23 +1,19 @@
 jobs:
   - job: build_all_linux
-    displayName: Build all tasks (Linux)
+    displayName: Build all tasks (Ubuntu:Latest)
     timeoutInMinutes: 120
     pool:
       vmImage: ubuntu-latest
-    variables:
-      - name: workDirectory
-        value: $(Build.SourcesDirectory)
     steps:
-      - script: |
-          echo $(Build.SourcesDirectory)
       - task: DockerCompose@0
+        displayName: "Deploy Docker Compose"
         inputs:
+          action: 'Run a Docker Compose command'
           containerregistrytype: 'Container Registry'
           dockerComposeFile: '$(Build.SourcesDirectory)/workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
           dockerComposeCommand: up -d
-          action: 'Run a Docker Compose command'
       - task: UseDotNet@2
         displayName: "Install .NET Core SDK"
         inputs:
@@ -40,10 +36,11 @@ jobs:
       - script: bash <(curl -s https://codecov.io/bash)
         displayName: "Upload to codecov.io"
       - task: DockerCompose@0
+        displayName : "Down Docker Compose"
         inputs:
+          action: 'Run a Docker Compose command'
           containerregistrytype: 'Container Registry'
           dockerComposeFile: '$(Build.SourcesDirectory)/workflow/docker-compose.yml'
           dockerComposeFileArgs: |
             workDirectory=$(Build.SourcesDirectory)
           dockerComposeCommand: down --remove-orphans
-          action: 'Delete Docker Compose command'
