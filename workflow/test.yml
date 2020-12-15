@@ -8,6 +8,9 @@ jobs:
       - name: workDirectory
         value: ${Build.SourcesDirectory}
     steps:
+      - script: |
+          echo ${Build.SourcesDirectory}
+          echo $(workDirectory)
       - task: DockerCompose@0
         inputs:
           containerregistrytype: 'Azure Container Registry'
