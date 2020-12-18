@@ -2,28 +2,46 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace FreeRedis.Tests
 {
     public class TestBase
-	{
-		//static Lazy<RedisClient> _cliLazy = new Lazy<RedisClient>(() => new RedisClient("127.0.0.1:6379,database=1", "127.0.0.1:6379,database=1"));
+    {
+	    private static ConnectionStringBuilder GetTestConnectionString(string serviceName)
+	    {
+		    var model = new ConnectionStringBuilder()
+		    {
+			    Host = Environment.GetEnvironmentVariable($"DOCKER_HOST_{serviceName}")
+		    };
+		    return model;
+	    }
+	    //static Lazy<RedisClient> _cliLazy = new Lazy<RedisClient>(() => new RedisClient("127.0.0.1:6379,database=1", "127.0.0.1:6379,database=1"));
 		static Lazy<RedisClient> _cliLazy = new Lazy<RedisClient>(() =>
 		{
 			//var r = new RedisClient(new ConnectionStringBuilder[] { "127.0.0.1:6379,database=1,password=123" }); //redis 3.2 cluster
 			//var r = new RedisClient("127.0.0.1:6379,database=1"); //redis 3.2
 			// var r = new RedisClient("127.0.0.1:6379,database=1", "127.0.0.1:6379,database=1");
 			// var r = new RedisClient("127.0.0.1:6379,database=1,max pool size=10,protocol=RESP2,ClientName=FreeRedis"); //redis 6.0
-			var r = new RedisClient("127.0.0.1:6479,password=123456,max pool size=50,protocol=RESP2"); //redis 6.0
+			// var r = new RedisClient("127.0.0.1:6479,password=123456,max pool size=50,protocol=RESP2"); //redis 6.0
+			var r = new RedisClient(GetTestConnectionString("redis_single")); //redis 6.0
 			// var r = new RedisClient("127.0.0.1:6479,max pool size=50,protocol=RESP2"); //redis 6.0
 			r.Serialize = obj => JsonConvert.SerializeObject(obj);
 			r.Deserialize = (json, type) => JsonConvert.DeserializeObject(json, type);
 			r.Notice += (s, e) => Trace.WriteLine(e.Log);
 			return r;
 		});
-		public static RedisClient cli => _cliLazy.Value;
-	
+		
+		public static RedisClient cli
+		{
+			get
+			{
+				Console.WriteLine(_cliLazy.Value.ToString());
+				return _cliLazy.Value;
+			}
+		}
+
 		protected readonly object Null = null;
 		protected readonly string String = "我是中国人";
 		protected readonly byte[] Bytes = Encoding.UTF8.GetBytes("这是一个byte字节");
