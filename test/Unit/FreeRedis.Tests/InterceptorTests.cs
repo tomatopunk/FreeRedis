@@ -11,7 +11,19 @@ namespace FreeRedis.Tests
     public class InterceptorTests
     {
         // public static RedisClient CreateClient() => new RedisClient("127.0.0.1:6379,password=123456");
-        public static RedisClient CreateClient() => new RedisClient("127.0.0.1:6379");
+        // public static RedisClient CreateClient() => new RedisClient("127.0.0.1:6379");
+        
+        private static ConnectionStringBuilder GetTestConnectionString(string serviceName)
+        {
+            var model = new ConnectionStringBuilder()
+            {
+                Host = Environment.GetEnvironmentVariable($"DOCKER_HOST_{serviceName}"),
+                Password = "123456"
+            };
+            return model;
+        }
+        
+        public static RedisClient CreateClient() => new RedisClient(GetTestConnectionString("redis_auth"));
         // public static RedisClient CreateClient() => new RedisClient("192.168.164.10:6379");
 
         [Fact]

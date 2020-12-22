@@ -1,38 +1,46 @@
 jobs:
   - job: build_all_linux
-    displayName: Build all tasks (Linux)
+    displayName: Build all tasks (Ubuntu:Latest)
     timeoutInMinutes: 120
     pool:
       vmImage: ubuntu-latest
-    services:
-      redis:
-        image: redis:6.0-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
+      - task: DockerCompose@0
+        displayName: "Deploy Docker Compose"
+        inputs:
+          action: 'Run a Docker Compose command'
+          containerregistrytype: 'Container Registry'
+          dockerComposeFile: '$(Build.SourcesDirectory)/workflow/docker-compose.yml'
+          dockerComposeFileArgs: |
+            workDirectory=$(Build.SourcesDirectory)
+          dockerComposeCommand: up -d
       - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK'
+        displayName: "Install .NET Core SDK"
         inputs:
           version: 5.0.100
       - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK'
+        displayName: "Install .NET Core SDK"
         inputs:
           version: 3.1.403
       - script: bash scripts/build.sh
-        displayName: 'Build'
+        displayName: "Build"
       - script: bash scripts/test.sh
-        displayName: 'Run unit test'
+        displayName: "Run Unit Test"
       - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
         displayName: ReportGenerator
         inputs:
-          reports: '$(Build.SourcesDirectory)/test/Unit/*/TestResults/*/coverage.cobertura.xml'
-          targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
-          reporttypes: 'Cobertura'
-          assemblyfilters: '-xunit*'
+          reports: "$(Build.SourcesDirectory)/test/Unit/*/TestResults/*/coverage.cobertura.xml"
+          targetdir: "$(Build.SourcesDirectory)/CodeCoverage"
+          reporttypes: "Cobertura"
+          assemblyfilters: "-xunit*"
       - script: bash <(curl -s https://codecov.io/bash)
-        displayName: 'Upload to codecov.io'
+        displayName: "Upload to codecov.io"
+      - task: DockerCompose@0
+        displayName : "Down Docker Compose"
+        inputs:
+          action: 'Run a Docker Compose command'
+          containerregistrytype: 'Container Registry'
+          dockerComposeFile: '$(Build.SourcesDirectory)/workflow/docker-compose.yml'
+          dockerComposeFileArgs: |
+            workDirectory=$(Build.SourcesDirectory)
+          dockerComposeCommand: down --remove-orphans
