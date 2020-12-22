@@ -8,7 +8,17 @@ namespace FreeRedis.Tests.RedisSentinelClientTests
 {
     public class SentinelTests
     {
-        public static RedisSentinelClient GetClient() => new RedisSentinelClient("127.0.0.1:6379");
+        private static ConnectionStringBuilder GetTestConnectionString(string serviceName)
+        {
+            var model = new ConnectionStringBuilder()
+            {
+                Host = Environment.GetEnvironmentVariable($"DOCKER_HOST_{serviceName}"),
+                Password = "123456"
+            };
+            return model;
+        }
+        
+        public static RedisSentinelClient GetClient() => new RedisSentinelClient(GetTestConnectionString("redis_auth"));
 
         [Fact(Skip = "test")]
         public void Ping()
