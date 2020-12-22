@@ -5,9 +5,9 @@
 docker ps --filter "status="running"" --format "{{.Names}}\t{{.Ports}}\t{{.Image}}" | while read -r name ports image;do
   key="DOCKER_HOST_$name"
   # 0.0.0.0:1234->9876/tcp,first
-  tempPort=$(cut -d'-' -f1 <<< ports)
+  tempPort=$(cut -d'-' -f1 <<< "$ports")
   echo "$key:$tempPort"
-  export key=ports  
+  export "$key=$tempPort"
 done
 
 echo "setup is finished"
