@@ -11,8 +11,8 @@ while read name ports image; do
     export "$vr"
 done <<<$(docker ps --filter "status="running"" --format "{{.Names}}\t{{.Ports}}\t{{.Image}}")
 
-echo $(printenv DOCKER_HOST_redis_auth)
-echo $(printenv DOCKER_HOST_redis_single)
+#echo $(printenv DOCKER_HOST_redis_auth)
+#echo $(printenv DOCKER_HOST_redis_single)
 
 echo "setup is finished"
 
