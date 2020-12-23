@@ -1,18 +1,17 @@
 version: "3.9"
 services:
-  redis_single:
+  redis_sentinel_master:
     image: redis:6.0-alpine
-    container_name: "redis_single"
-    volumes:
-      - ${workDirectory}/workflow/redis.conf:/usr/local/etc/redis/redis.conf
+    container_name: "redis_sentinel_master"
     ports:
-      - "6379:6379"
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-  redis_auth:
+      - "6777:6379"
+  redis_sentinel_slave-1:
     image: redis:6.0-alpine
-    container_name: "redis_auth"
-    volumes:
-      - ${workDirectory}/workflow/redis-auth.conf:/usr/local/etc/redis/redis.conf
+    container_name: "redis_sentinel_slave-1"
     ports:
-      - "6479:6379"
-    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+      - "6778:6379"
+  redis_sentinel_slavel-2:
+    image: redis:6.0-alpine
+    container_name: "redis_sentinel_slave-2"
+    ports:
+      - "6779:6379"
