@@ -5,13 +5,11 @@ services:
     container_name: "redis_sentinel_master"
     ports:
       - "6777:6379"
-  redis_sentinel_slave-1:
+  redis_sentinel_1:
     image: redis:6.0-alpine
-    container_name: "redis_sentinel_slave-1"
+    container_name: "redis_sentinel_1"
     ports:
-      - "6778:6379"
-  redis_sentinel_slavel-2:
-    image: redis:6.0-alpine
-    container_name: "redis_sentinel_slave-2"
-    ports:
-      - "6779:6379"
+      - "26389:26379"
+    volumes:
+      - D:\MyConfiguration/shaun.zhang/RiderProjects/FreeRedis/workflow/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]

@@ -1,30 +1,30 @@
-version: "3.9"
-services:
-  redis_sentinel_1:
-    image: redis:6.0-alpine
-    container_name: "redis_sentinel_1"
-    ports:
-      - "26379:26379"
-    volumes:
-      - ${workDirectory}/workflow/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
-    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]
-  redis_sentinel_2:
-    image: redis:6.0-alpine
-    container_name: "redis_sentinel_2"
-    ports:
-      - "26380:26379"
-    volumes:
-      - ${workDirectory}/workflow/sentinel2.conf:/usr/local/etc/redis/sentinel.conf
-    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]
-  redis_sentinel_3:
-    image: redis:6.0-alpine
-    container_name: "redis_sentinel_3"
-    ports:
-      - "26381:26379"
-    volumes:
-      - ${workDirectory}/workflow/sentinel3.conf:/usr/local/etc/redis/sentinel.conf
-    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]
-networks:
-  default:
-    external:
-      name: redis_default
+#version: "3.9"
+#services:
+#  redis_sentinel_1:
+#    image: redis:6.0-alpine
+#    container_name: "redis_sentinel_1"
+#    ports:
+#      - "26379:26379"
+#    volumes:
+#      - ${workDirectory}/workflow/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+#    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]
+#  redis_sentinel_2:
+#    image: redis:6.0-alpine
+#    container_name: "redis_sentinel_2"
+#    ports:
+#      - "26380:26379"
+#    volumes:
+#      - ${workDirectory}/workflow/sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+#    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]
+#  redis_sentinel_3:
+#    image: redis:6.0-alpine
+#    container_name: "redis_sentinel_3"
+#    ports:
+#      - "26381:26379"
+#    volumes:
+#      - ${workDirectory}/workflow/sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+#    command: [ "redis-sentinel", "/usr/local/etc/redis/sentinel.conf" ]
+#networks:
+#  default:
+#    external:
+#      name: workflow_default
