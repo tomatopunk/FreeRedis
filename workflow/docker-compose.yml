@@ -4,7 +4,7 @@ services:
     image: redis:6.0-alpine
     container_name: "redis_single"
     volumes:
-      - ${workDirectory}/env/redis.conf:/usr/local/etc/redis/redis.conf
+      - ${workDirectory}/workflow/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - "6379:6379"
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
@@ -32,4 +32,4 @@ services:
       - 26379:26379
     command: redis-sentinel /usr/local/etc/redis/sentinel.conf
     volumes:
-      - ${workDirectory}/env/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+      - ${workDirectory}/workflow/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
